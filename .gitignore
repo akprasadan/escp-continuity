@@ -1,0 +1,21 @@
+
+# Virtual environment
+.venv/
+
+# Pytest
+.pytest_cache/
+__pycache__/
+
+# VS Code
+.vscode/
+
+# MacOS Metadata
+.DS_Store
+
+# Legacy code, plots, data
+old_code/
+
+# Generated data and plots
+plots/
+*.pdf
+data/processed_concrete_data.csv
