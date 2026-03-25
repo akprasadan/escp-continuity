@@ -1,8 +1,12 @@
 [project]
 name = "escp-continuity"
+maintainers = [
+  {name = "Akshay Prasadan", email = "akprasadan@gmail.com"}]
 version = "0.0.0"
 description = "Implement examples used in paper on continuity of the eSCP operator."
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
 requires-python = ">=3.14"
 dependencies = [
     "matplotlib>=3.10.8",
@@ -13,6 +17,9 @@ dependencies = [
     "ucimlrepo>=0.0.7",
     "xlrd>=2.0.2",
 ]
+
+[project.urls]
+Repository = "https://github.com/akprasadan/escp-continuity.git"
 
 [build-system]
 requires = ["hatchling"]
