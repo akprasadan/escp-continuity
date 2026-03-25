@@ -22,16 +22,14 @@ Pipeline:
    from both eSCP estimate and prior with actual (R, q) data included.
 6. Repeat this but now take age to be 25-50. Show same plot, but skip prior since unchanged.
 
-Inputs:
-  - data/Concrete_Data.xls
-
-Downloaded from https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength
+Data will be downloaded from https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength
 
 I-Cheng Yeh, "Modeling of strength of high performance concrete using artificial
 neural networks," Cement and Concrete Research, Vol. 28, No. 12, pp. 1797-1808 (1998)
 
 Outputs:
-  - data/processed_concrete_data.csv
+  - data/raw_concrete.csv
+  - data/processed_concrete.csv
   - plots/example_three/R_0.3_age_25_50.pdf
   - plots/example_three/R_0.3_age_0_25.pdf
 """
@@ -44,6 +42,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import PowerNorm
 from matplotlib.collections import QuadMesh
 from matplotlib.axes import Axes
+from ucimlrepo import fetch_ucirepo
 
 from src.estimate_functions import empirical_scp as empirical_scp
 from src.example_two import probs_to_mesh as probs_to_mesh
@@ -53,6 +52,10 @@ plt.rcParams.update({"pdf.fonttype": 42, "text.usetex": True})
 
 
 SEED = 20251028
+
+# Data paths
+RAW_DATA_PATH = Path("data/raw_concrete.csv")
+PROCESSED_DF_PATH = Path("data/processed_concrete.csv")
 
 # Prior distribution parameters
 PRIOR_A_MEAN, PRIOR_A_SD = 7, 1.5
@@ -112,21 +115,42 @@ def concrete_gaussian_prior(rng: np.random.Generator, J: int) -> np.ndarray:
     return np.column_stack((x, y))
 
 
-def process_concrete_data(path: Path) -> pd.DataFrame:
+def download_concrete_data(path: Path) -> None:
+    """
+    Download dataset from UC Irvine ML Repository.
+
+    Parameters
+    ----------
+    path : Path
+        File location to store raw dataset.
+    """
+
+    if not path.exists():
+        path.parent.mkdir(parents=True, exist_ok=True)
+        df = fetch_ucirepo(id=165).data.original  # type: ignore
+        df.to_csv(path, index=False)
+
+
+def process_concrete_data(input_path: Path, output_path) -> pd.DataFrame:
     """Read, compute binder and ratios, subset columns, and save to data/ directory.
     We do not perform any subsetting of age or water/binder ratios in the output.
 
     Parameters
     -----------
-    path : Path
-        Location of raw Excel file with concrete data downloaded from original source.
+    input_path : Path
+        Location of raw .csv file with concrete data downloaded from original source.
+    output_path : Path
+        Location of processed dataframe of concrete data.
 
     Returns
     --------
     df : pd.Dataframe
         Cleaned dataframe with water/binder ratio calculated.
     """
-    df = pd.read_excel(path)
+    # Download and save data only if not already present
+    download_concrete_data(input_path)
+
+    df = pd.read_csv(input_path)
 
     df.columns = [
         "cement",
@@ -145,9 +169,8 @@ def process_concrete_data(path: Path) -> pd.DataFrame:
 
     df = df[["strength", "water", "binder", "water_binder_ratio", "age_days"]]
 
-    out_path = Path("data/processed_concrete_data.csv")
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    df.to_csv(out_path, index=False)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(output_path, index=False)
 
     return df
 
@@ -373,7 +396,8 @@ def sample_from_eSCP(
 
 def main():
     # Experiment 1
-    df = process_concrete_data(path=Path("data/Concrete_Data.xls"))
+    df = process_concrete_data(input_path=RAW_DATA_PATH, output_path=PROCESSED_DF_PATH)
+
     rng = np.random.default_rng(SEED)
 
     # Obtain filtered strength data (in desired R + age range) and then create large

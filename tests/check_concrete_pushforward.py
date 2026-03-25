@@ -6,15 +6,14 @@ We draw a sample {q_1, ..., q_K}, run the empirical SCP algorithm to generate a 
 Then sample lambda_1, ..., lambda_K from prob_df, apply Q, and visually assess that the distribution
 of Q(lambda_1), ..., Q(lambda_K) resembles that of q_1, ..., q_K.
 
-Inputs:
-  - data/Concrete_Data.xls
-
-Downloaded from https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength
+Data will be downloaded from https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength
 
 I-Cheng Yeh, "Modeling of strength of high performance concrete using artificial
 neural networks," Cement and Concrete Research, Vol. 28, No. 12, pp. 1797-1808 (1998)
 
 Output:
+  - data/raw_concrete.csv
+  - data/processed_concrete.csv
   - plots/tests/integrated_test_concrete_SCP.pdf
 """
 
@@ -26,11 +25,11 @@ import matplotlib.pyplot as plt
 from src.estimate_functions import empirical_scp as empirical_scp
 from src.output_functions import apply_map as apply_map
 from src.example_two import probs_to_mesh as probs_to_mesh
-from src.example_three import sample_from_eSCP as sample_from_eSCP
+from src.example_three import download_concrete_data as download_concrete_data
 from src.example_three import process_concrete_data as process_concrete_data
 from src.example_three import generate_bootstrapped_strength as bootstrap_strength
 from src.example_three import concrete_gaussian_prior as concrete_gaussian_prior
-
+from src.example_three import sample_from_eSCP as sample_from_eSCP
 
 SEED = 20251028
 
@@ -54,10 +53,12 @@ PRIOR_A_MEAN, PRIOR_A_SD = 7, 1.5
 PRIOR_B_MEAN, PRIOR_B_SD = -1.5, 1
 
 # Load concrete data
-df = process_concrete_data(path=Path("data/Concrete_Data.xls"))
-rng = np.random.default_rng(SEED)
+RAW_DATA_PATH = Path("data/raw_concrete.csv")
+PROCESSED_DF_PATH = Path("data/processed_concrete.csv")
+df = process_concrete_data(input_path=RAW_DATA_PATH, output_path=PROCESSED_DF_PATH)
 
 # Bootstrapped strength data
+rng = np.random.default_rng(SEED)
 strength_data_bootstrapped = bootstrap_strength(df, AGE_MIN, AGE_MAX, POOL_SIZE, rng)
 
 # Plot configs

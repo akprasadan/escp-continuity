@@ -15,4 +15,4 @@ __pycache__/
 # Generated data and plots
 plots/
 *.pdf
-data/processed_concrete_data.csv
+data/

@@ -33,7 +33,7 @@ You can also run all unit tests.
 ## Directory Structure
 
 - The core functions and examples are stored in `src/`.
-- A dataset needed for `src/example_three.py` is given in `data/Concrete_Data.xls`, and running this example will also store a processed version of the dataset as `data/processed_concrete_data.csv`. The original dataset is due to [^3] and can be downloaded from the [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength).
+- Necessary datasets will be stored in `data/`, which is populated after running `src/example_three.py` or `tests/check_concrete_pushforward.py`. These modules will download a concrete dataset and store the raw version in `data/raw_concrete.csv` and a processed version in  `data/processed_concrete.csv`. The original dataset is due to [^3] and can be downloaded from the [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength).
 - Results from running the examples are stored in `plots/`.
 - The code is extensively tested in `tests/`. Three tests, `tests/check_pushforward.py`, `tests/check_concrete_pushforward.py`, `tests/test_probs_to_mesh.py` include visual tests and must be manually run. Their results are stored in `plots/tests/`.
 
