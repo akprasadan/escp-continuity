@@ -3,10 +3,11 @@ estimate_functions.py
 
 Run the eSCP algorithm over a 2D set Lambda for a real-valued map Q on Lambda
 applied to data drawn from some trial-generating distribution (TGD), using a prior assumption.
-
-In this module, synthetic_scp() will draw data from a user-chosen TGD and
+The function synthetic_scp() will draw data from a user-chosen TGD and
 apply the map Q to generate data, while empirical_scp() will start directly with
 Q evaluations.
+
+The functions in this module are used to run our main examples.
 """
 
 from collections.abc import Callable
@@ -117,16 +118,9 @@ def synthetic_scp(
 
     # 5) Package prior and TGD samples with respective Q evaluations into dataframes
     prior_df = pd.DataFrame(
-        {
-            "source": "prior",
-            "x": prior_data[:, 0],
-            "y": prior_data[:, 1],
-            "q": q_prior_data,
-        }
+        {"source": "prior", "x": prior_data[:, 0], "y": prior_data[:, 1], "q": q_prior_data}
     )
-    tgd_df = pd.DataFrame(
-        {"source": "tgd", "x": tgd_data[:, 0], "y": tgd_data[:, 1], "q": q_data}
-    )
+    tgd_df = pd.DataFrame({"source": "tgd", "x": tgd_data[:, 0], "y": tgd_data[:, 1], "q": q_data})
 
     return probs_df, prior_df, tgd_df
 

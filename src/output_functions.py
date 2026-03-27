@@ -10,9 +10,7 @@ from collections.abc import Callable
 import numpy as np
 
 
-def apply_map(
-    points: np.ndarray, Q: Callable[[np.ndarray, np.ndarray], np.ndarray]
-) -> np.ndarray:
+def apply_map(points: np.ndarray, Q: Callable[[np.ndarray, np.ndarray], np.ndarray]) -> np.ndarray:
     """
     Apply a real-valued map Q to 2D points, while performing some additional
     input/output validation.

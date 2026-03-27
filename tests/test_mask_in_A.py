@@ -23,9 +23,7 @@ def test_mask_in_A_all_points_in_rect_A_equal_bins():
     """If A includes all points, mask is all True and masked counts match unmasked counts."""
     bin_edges = np.array([0.0, 1.0, 2.0, 3.0])
     q_prior_data = np.array([0.2, 0.8, 1.2, 1.9, 2.1, 2.7])
-    prior_data = np.array(
-        [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]]
-    )
+    prior_data = np.array([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]])
 
     def A_rect(pts):
         x, y = pts[:, 0], pts[:, 1]
@@ -47,9 +45,7 @@ def test_mask_in_A_excludes_one_point_top():
     """
     bin_edges = np.array([0.0, 1.0, 2.0, 3.0])
     q_prior_data = np.array([0.2, 0.8, 1.2, 1.9, 2.1, 2.7])
-    prior_data = np.array(
-        [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]]
-    )
+    prior_data = np.array([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]])
 
     # Half-open-style: exclude the point with y=0.9 (index 4); keep others.
     def A_rect(pts):
@@ -58,9 +54,7 @@ def test_mask_in_A_excludes_one_point_top():
 
     mask_A = mask_in_A(prior_data, A_rect)
     prior_counts = counts_observed(q_prior_data, bin_edges)  # [2, 2, 2]
-    prior_A_counts = counts_observed(
-        q_prior_data[mask_A], bin_edges
-    )  # exclude q=2.1 -> [2, 2, 1]
+    prior_A_counts = counts_observed(q_prior_data[mask_A], bin_edges)  # exclude q=2.1 -> [2, 2, 1]
 
     assert np.count_nonzero(~mask_A) == 1
     assert np.array_equal(prior_counts, np.array([2, 2, 2]))
@@ -74,9 +68,7 @@ def test_mask_in_A_excludes_one_point_right():
     """
     bin_edges = np.array([0.0, 1.0, 2.0, 3.0])
     q_prior_data = np.array([0.2, 0.8, 1.2, 1.9, 2.1, 2.7])
-    prior_data = np.array(
-        [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]]
-    )
+    prior_data = np.array([[0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8], [0.2, 0.9], [0.4, 0.1]])
 
     # Tighten xmax to exclude the point (0.7, 0.8) (index 3).
     def A_rect(pts):
@@ -85,9 +77,7 @@ def test_mask_in_A_excludes_one_point_right():
 
     mask_A = mask_in_A(prior_data, A_rect)
     prior_counts = counts_observed(q_prior_data, bin_edges)  # [2, 2, 2]
-    prior_A_counts = counts_observed(
-        q_prior_data[mask_A], bin_edges
-    )  # exclude q=1.9 -> [2, 1, 2]
+    prior_A_counts = counts_observed(q_prior_data[mask_A], bin_edges)  # exclude q=1.9 -> [2, 1, 2]
 
     assert np.count_nonzero(~mask_A) == 1
     assert np.array_equal(prior_counts, np.array([2, 2, 2]))
@@ -118,9 +108,7 @@ def test_mask_in_A_rect_A_excludes_one_point_first_bin():
 
     mask_A = mask_in_A(prior_data, A_rect)
     prior_counts = counts_observed(q_prior_data, bin_edges)  # [2, 2, 2]
-    prior_A_counts = counts_observed(
-        q_prior_data[mask_A], bin_edges
-    )  # exclude q=0.2 -> [1, 2, 2]
+    prior_A_counts = counts_observed(q_prior_data[mask_A], bin_edges)  # exclude q=0.2 -> [1, 2, 2]
 
     assert np.count_nonzero(~mask_A) == 1
     assert np.array_equal(prior_counts, np.array([2, 2, 2]))

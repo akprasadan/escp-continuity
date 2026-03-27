@@ -101,9 +101,7 @@ def main():
     axes[1, 1].axis("off")
 
     plt.tight_layout()
-    out_path = Path(
-        "plots/tests/integrated_test_TGD_and_estimate_and_sampled_estimate.pdf"
-    )
+    out_path = Path("plots/tests/integrated_test_TGD_and_estimate_and_sampled_estimate.pdf")
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path)
     plt.close(fig)

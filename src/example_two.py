@@ -44,9 +44,7 @@ SEED = 20251028
 DPI, FIGSIZE = 1200, (7.5, 7.5)
 PRIOR_COLOR, TGD_COLOR = "#f4d03f", "#ff7f0e"
 PURPLE_BG = (68 / 255, 1 / 255, 84 / 255)
-SCATTERPLOT_OPTIONS = dict(
-    s=7, alpha=0.95, edgecolors="black", linewidths=0.3, rasterized=False
-)
+SCATTERPLOT_OPTIONS = dict(s=7, alpha=0.95, edgecolors="black", linewidths=0.3, rasterized=False)
 
 
 def Q(x, y):
@@ -54,10 +52,7 @@ def Q(x, y):
 
 
 def gaussian_sampler(
-    rng: np.random.Generator,
-    J: int,
-    mean: tuple[float, float] | np.ndarray,
-    variance: float,
+    rng: np.random.Generator, J: int, mean: tuple[float, float] | np.ndarray, variance: float
 ) -> np.ndarray:
     """Example two's prior distribution sampler.
 
@@ -84,10 +79,7 @@ def gaussian_sampler(
 
 
 def gaussian_mixture_sampler_by_var(
-    mean_a: np.ndarray,
-    mean_b: np.ndarray,
-    var: float,
-    weight: float = 0.5,
+    mean_a: np.ndarray, mean_b: np.ndarray, var: float, weight: float = 0.5
 ) -> Callable[[np.random.Generator, int], np.ndarray]:
     """Wrapper function to draw from example_one.sample_gaussian_mixture with
     specified means/variance. Needed since sampler_functions.sample_distr()
@@ -153,9 +145,7 @@ def probs_to_mesh(df: pd.DataFrame) -> tuple[np.ndarray, np.ndarray, np.ndarray]
     return x_edges, y_edges, Z
 
 
-def subsample(
-    df: pd.DataFrame, seed: int, size: int = 1000
-) -> tuple[np.ndarray, np.ndarray]:
+def subsample(df: pd.DataFrame, seed: int, size: int = 1000) -> tuple[np.ndarray, np.ndarray]:
     """
     Randomly sample rows of a dataframe of points in R^2 for plotting purposes.
 
@@ -231,9 +221,7 @@ def main():
 
     # Precompute prior samples once using a fixed seed
     _rng_prior = np.random.default_rng(SEED + 123)
-    _prior_samples = gaussian_sampler(
-        rng=_rng_prior, J=J, mean=PRIOR_MEAN, variance=PRIOR_VAR
-    )
+    _prior_samples = gaussian_sampler(rng=_rng_prior, J=J, mean=PRIOR_MEAN, variance=PRIOR_VAR)
 
     # Dummy function to ensure same prior points are used
     def prior_fixed(_rng, _J):
@@ -242,9 +230,7 @@ def main():
     # Run estimation for each variance
     fits = {}
     for i, var in enumerate(TGD_VARS):
-        tgd = gaussian_mixture_sampler_by_var(
-            mean_a=MU_A, mean_b=MU_B, var=var, weight=0.5
-        )
+        tgd = gaussian_mixture_sampler_by_var(mean_a=MU_A, mean_b=MU_B, var=var, weight=0.5)
         probs_df, prior_df, tgd_df = synthetic_scp(
             K=K,
             J=J,

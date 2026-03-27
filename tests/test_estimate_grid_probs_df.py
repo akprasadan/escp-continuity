@@ -245,9 +245,7 @@ def test_tiles_have_constant_positive_dimensions():
 def test_columns_and_types():
     """Check columns and types of dataframe."""
     q_data, prior_data, q_prior_data, bin_edges = make_dummy_inputs(seed=5)
-    df = prob_over_grid(
-        q_data, prior_data, q_prior_data, bin_edges, grid_bounds=(0, 3, -2, 2), h=3
-    )
+    df = prob_over_grid(q_data, prior_data, q_prior_data, bin_edges, grid_bounds=(0, 3, -2, 2), h=3)
     expected_cols = {"xmin", "xmax", "ymin", "ymax", "prob"}
     assert set(df.columns) == expected_cols
     for col in ["xmin", "xmax", "ymin", "ymax", "prob"]:

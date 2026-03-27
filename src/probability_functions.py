@@ -157,12 +157,12 @@ def prob_over_grid(
     y_edges = make_partition(float(ymin), float(ymax), h)
 
     rows = []
+    # Each row = one half-open box [x0,x1) x [y0,y1), to which we assign probability
     for j in range(h):  # y-rows (bottom -> top)
         y0, y1 = float(y_edges[j]), float(y_edges[j + 1])
         for i in range(h):  # x-cols (left -> right)
             x0, x1 = float(x_edges[i]), float(x_edges[i + 1])
-
-            A = rect_A(x0, x1, y0, y1)  # half-open: [x0,x1) x [y0,y1)
+            A = rect_A(x0, x1, y0, y1)  # [x0,x1) x [y0,y1),
             mask_A = mask_in_A(prior_data, A)
             prior_A_counts = counts_observed(q_prior_data[mask_A], bin_edges)
             p_A = prob_A(prior_counts, prior_A_counts, obs_counts, K)

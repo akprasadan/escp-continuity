@@ -131,13 +131,9 @@ def visual_check_probs_to_mesh():
             rasterized=True,
         )
         ax.set_title(f"Max weight on {prob_labels[i]}")
-        style_and_annotate(
-            ax=ax, bounds=(0, 3, 0, 2), bg=PURPLE_BG, label_pos=(2.7, 1.7)
-        )
+        style_and_annotate(ax=ax, bounds=(0, 3, 0, 2), bg=PURPLE_BG, label_pos=(2.7, 1.7))
 
-    fig.savefig(
-        out_dir / "integrated_test_probs_to_mesh.pdf", dpi=DPI, bbox_inches="tight"
-    )
+    fig.savefig(out_dir / "integrated_test_probs_to_mesh.pdf", dpi=DPI, bbox_inches="tight")
     plt.close(fig)
 
 

@@ -117,7 +117,7 @@ def concrete_gaussian_prior(rng: np.random.Generator, J: int) -> np.ndarray:
 
 def download_concrete_data(path: Path) -> None:
     """
-    Download dataset from UC Irvine ML Repository.
+    Download and save dataset from UC Irvine ML Repository, only if not already present.
 
     Parameters
     ----------
@@ -152,6 +152,7 @@ def process_concrete_data(input_path: Path, output_path) -> pd.DataFrame:
 
     df = pd.read_csv(input_path)
 
+    # This order is correct, but probably good to make code agnostic to order of columns.
     df.columns = [
         "cement",
         "slag",
@@ -176,11 +177,7 @@ def process_concrete_data(input_path: Path, output_path) -> pd.DataFrame:
 
 
 def generate_bootstrapped_strength(
-    df: pd.DataFrame,
-    age_min: float,
-    age_max: float,
-    count: int,
-    rng: np.random.Generator,
+    df: pd.DataFrame, age_min: float, age_max: float, count: int, rng: np.random.Generator
 ) -> np.ndarray:
     """
     Bootstrap an appropriate subset of concrete strength values, and add
@@ -266,11 +263,7 @@ def plot_strength_vs_ratio(
 
 
 def plot_eSCP_estimate(
-    probs_df: pd.DataFrame,
-    ax: Axes,
-    norm: PowerNorm,
-    a_samples: np.ndarray,
-    b_samples: np.ndarray,
+    probs_df: pd.DataFrame, ax: Axes, norm: PowerNorm, a_samples: np.ndarray, b_samples: np.ndarray
 ) -> QuadMesh:
     """
     Render a probability mesh from `probs_df` onto a supplied axis. Also
@@ -300,13 +293,7 @@ def plot_eSCP_estimate(
     x_edges, y_edges, Z = probs_to_mesh(probs_df)
 
     mesh = ax.pcolormesh(
-        x_edges,
-        y_edges,
-        Z,
-        norm=norm,
-        cmap="viridis",
-        shading="auto",
-        rasterized=True,
+        x_edges, y_edges, Z, norm=norm, cmap="viridis", shading="auto", rasterized=True
     )
 
     ax.set_xlabel(r"$a$", fontsize=14)
@@ -348,9 +335,7 @@ def plot_prior(prior_sample: pd.DataFrame, ax: Axes) -> None:
     ax.text(13, -2.9, r"$\Lambda$", color="white", fontsize=15, weight="bold")
 
 
-def sample_from_eSCP(
-    df: pd.DataFrame, n: int, seed: int = SEED
-) -> tuple[np.ndarray, np.ndarray]:
+def sample_from_eSCP(df: pd.DataFrame, n: int, seed: int = SEED) -> tuple[np.ndarray, np.ndarray]:
     """
     Given eSCP solution, sample from the estimated heatmap.
 
@@ -481,9 +466,7 @@ def main():
     plot_eSCP_estimate(probs_df, ax_eSCP, norm, a_samples, b_samples)
 
     ax_strength = axes[1]
-    plot_strength_vs_ratio(
-        df, ax_strength, a_samples, b_samples, AGE_MIN_TWO, AGE_MAX_TWO
-    )
+    plot_strength_vs_ratio(df, ax_strength, a_samples, b_samples, AGE_MIN_TWO, AGE_MAX_TWO)
 
     out_path = Path(f"plots/example_three/R_{R}_age_{AGE_MIN_TWO}_{AGE_MAX_TWO}.pdf")
     out_path.parent.mkdir(parents=True, exist_ok=True)

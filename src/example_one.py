@@ -221,9 +221,7 @@ def plot_3d_surface(X: np.ndarray, Y: np.ndarray, Z: np.ndarray) -> Figure:
     ax.tick_params(axis="y", pad=-3)
     ax.tick_params(labelsize=8)
 
-    ax.text(
-        4, -5.2, 0, r"$\Lambda$", color="white", fontsize=12, weight="bold", zorder=5
-    )
+    ax.text(4, -5.2, 0, r"$\Lambda$", color="white", fontsize=12, weight="bold", zorder=5)
     # Remove gridlines + grey background + spines
     ax.grid(False)
     for axis in (ax.xaxis, ax.yaxis, ax.zaxis):

@@ -1,4 +1,4 @@
-This repository implements the eSCP algorithm given in [^1] for the purpose of running several experiments detailed in a paper[^2] that studies the continuity of this algorithm. The three modules 'src/example_{one, two, three}.py' reproduce the plots from [^2].
+This repository implements the eSCP algorithm given in [^1] for the purpose of running several experiments detailed in a paper[^2] that studies the continuity of this algorithm. The three modules 'src/example_{one, two, three}.py' reproduce the plots from [^2]. Details of the examples are explained in the paper.
 
 [^1]: Shi, H., Yang, L., Chi, J., Butler, T., Wang, H., Bingham, D., & Estep, D. (2025). Nonparametric Bayesian Calibration of Computer Models. *arXiv preprint arXiv:2509.22597.*
 
@@ -32,10 +32,10 @@ You can also run all unit tests.
 
 ## Directory Structure
 
-- The core functions and examples are stored in `src/`.
+- The core functions and examples are stored in `src/`. You only need to run each of the `src/example_{i}.py` files to obtain the figures from the paper. Use the functions in `estimate_functions.py` to write your own examples. The rest of the modules just contain helper functions.
 - Necessary datasets will be stored in `data/`, which is populated after running `src/example_three.py` or `tests/check_concrete_pushforward.py`. These modules will download a concrete dataset and store the raw version in `data/raw_concrete.csv` and a processed version in  `data/processed_concrete.csv`. The original dataset is due to [^3] and can be downloaded from the [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/165/concrete+compressive+strength).
 - Results from running the examples are stored in `plots/`.
-- The code is extensively tested in `tests/`. Three tests, `tests/check_pushforward.py`, `tests/check_concrete_pushforward.py`, `tests/test_probs_to_mesh.py` include visual tests and must be manually run. Their results are stored in `plots/tests/`.
+- The code is tested in `tests/`. Three tests, `tests/check_pushforward.py`, `tests/check_concrete_pushforward.py`, `tests/test_probs_to_mesh.py` include visual tests and must be manually run. Their results are stored in `plots/tests/`.
 
 [^3]: Yeh, I. C. (1998). Modeling of strength of high-performance concrete using artificial neural networks. *Cement and Concrete research, 28*(12), 1797-1808.
 
