@@ -1,4 +1,4 @@
-This repository implements the eSCP algorithm given in [^1] for the purpose of running several experiments detailed in a paper[^2] that studies the continuity of this algorithm. The three modules 'src/example_{one, two, three}.py' reproduce the plots from [^2]. Details of the examples are explained in the paper. The algorithm is currently written for 2-dimensions only, and it is a future task to extend it to more dimensions.
+This repository implements the eSCP algorithm given in [^1] for the purpose of running several experiments detailed in a paper[^2] that studies the continuity of this algorithm. The three modules 'src/example_{one, two, three}.py' reproduce the plots from [^2]. Details of the examples are explained in the paper. The algorithm is currently written for 2-dimensions only, and a forthcoming repository will extend this code for arbitrary input and output dimensions.
 
 [^1]: Shi, H., Yang, L., Chi, J., Butler, T., Wang, H., Bingham, D., & Estep, D. (2025). Nonparametric Bayesian Calibration of Computer Models. *arXiv preprint arXiv:2509.22597.*
 
