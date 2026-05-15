@@ -36,7 +36,12 @@ def apply_map(
     if points.shape[0] == 0:
         raise ValueError("points must be non-empty.")
 
-    q = np.array([Q(*point) for point in points], dtype=float)
+    try:
+        # If Q is vectorized, very fast
+        q = np.asarray(Q(*points.T), dtype=float).T
+    except Exception:
+        # Slower but works with non-vectorized Q.
+        q = np.array([np.ravel(Q(*p)) for p in points], dtype=float)
 
     # Output validation
     if q.ndim != 1:
